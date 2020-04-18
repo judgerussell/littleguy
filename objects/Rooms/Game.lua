@@ -13,6 +13,7 @@ function Game:new(state)
 
     self.area:addGameObject("Cursor", 0, 0, {})
     self.littleguy = self.area:addGameObject('LittleGuy', gw/2, gh/2, {})
+    self.lunamood = 50
 
     self.area:addGameObject("MenuItem", 400 , 600, {r=60, func= function () self.littleguy:eat() end})
     self.area:addGameObject("MenuItem", 400 + 120, 600, {r=60, func= function () self.littleguy:tunes() end})
@@ -40,6 +41,11 @@ function Game:update(dt)
 
     if input:pressed("talk") and not text then
         run("scripts/FoodScript.lua")
+    end
+
+    if luna_increment ~= 0 then 
+        self.lunamood = self.lunamood + luna_increment 
+        luna_increment = 0
     end
 
     updateText(dt)
@@ -108,14 +114,14 @@ function drawText()
                 end
             end
         else
-            love.graphics.print(text, 100, 550)
+            love.graphics.print(text:sub(1, string_ptr), 100, 550)
         end
     end
 end
 
 function updateText(dt)
     if text and string_ptr < #text then
-        string_ptr = string_ptr + dt * 20
+        string_ptr = string_ptr + dt * 30
     end
 
     if opt_flag and input:pressed("choose-up") then

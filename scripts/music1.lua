@@ -1,0 +1,8 @@
+say("Have you heard the new Fiona Apple? I love it.", "j", "l", "n", false)
+say("Yeah. How you do you know about that? You've been in my closet for more than a decade!", "p", "r", "n", false)
+say("Doesn't mean I haven't been listening!", "j", "l", "n", false)
+say("Creepy. Anyways I'm not sure yet. She puts me on edge.", "p", "r", "n", false)
+say("Oh well she makes me feel unhinged.", "j", "l", "n", false)
+increaseLunaMood(2)
+say("What's the difference between unhinged and on edge?", "p", "r", "n", false)
+say("You wouldn't get it.", "j", "l", "n", false)

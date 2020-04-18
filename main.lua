@@ -19,6 +19,8 @@ string_ptr = 2
 opt_flag = false
 answer = nil
 screen_props = {}
+luna_increment = 0
+littleguy_increment = 0
 
 sprites = {}
 
@@ -68,7 +70,7 @@ function love.draw()
 end
 
 function love.keypressed(key, isRepeat)
-	if _G.text and key == "space" or key == "z" then
+	if key == "space" or key == "z" then
 		if routine and coroutine.status(routine) ~= "dead" then
 			coroutine.resume(routine)
 			string_ptr = 2
@@ -107,7 +109,6 @@ function say(str, c, o, e, s)
 		current_index = 0
 		for i = 1, lines do
 			breakchar = current_index + 64
-			print(str:sub(breakchar, breakchar))
 			if breakchar >= length then
 				breakchar = length
 			elseif str:sub(breakchar, breakchar) ~= " " then
@@ -118,8 +119,6 @@ function say(str, c, o, e, s)
 					end
 				end
 			end
-			print(current_index)
-			print(breakchar)
 			_G.text = _G.text..str:sub(current_index, breakchar).."\n"
 			current_index = breakchar + 1
 		end
@@ -227,4 +226,10 @@ function print_garbage_info()
 	print("-------------------------------------")
 end
 
+function lunaIncrement(amt)
+	luna_increment = amt
+end
 
+function littleGuyIncrement(amt)
+	littleguy_increment = amt
+end

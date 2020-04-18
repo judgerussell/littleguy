@@ -1,6 +1,7 @@
 say("What is that food you're eating?", "p", "r", "n", false)
 say("No idea -- I'm just happy to be eating it!", "j", "l", "n", false)
 say("Oh ... alright.", "p", "r", "n", false)
+lunaIncrement(4)
 ask("Would you be interested in some pasta? I found this nice recipe on Bon Appetit...", "p", "r", "n", false,
     {"Sure!", "I'm a blob of pixels, honey."},
     {
@@ -35,7 +36,7 @@ ask("Good. This is actually really easy once I get up and do it.", "p", "r", "n"
             say("Feeling sorry for myself, mostly.", "p", "r", "n", false)
             say("[redacted] broke up with me only days before the state shut down everything, and I was spending those days locked up in my room like I was already quarantined.", "p", "r", "n", false)
             say("Rough.", "j", "l", "n", false)
-            ask("I was just about ready to go out and face the world again when suddnely it was unsafe for me to do so.", "p", "r", "n", false,
+            ask("I was just about ready to go out and face the world again when suddenly it was unsafe for me to do so.", "p", "r", "n", false,
                 {
                     "You think I could get sick?",
                     "You're not sick, are you?"
@@ -54,8 +55,10 @@ ask("Good. This is actually really easy once I get up and do it.", "p", "r", "n"
                 {
                     function ()
                         say("I know I'm bad at being alone! Getting better at that isn't like learning how to knit!", "p", "r", "n", false)
-                        addprop("burned")
+                        lunaIncrement(-5)
+                        addprop("burned") 
                         say("Oh fuck!", "p", "r", "n", true)
+                        littleGuyIncrement(-15)
                         ask("I just dropped you on the stove burner. Are you alright?", "p", "r", "n", false,
                             {
                                 "Yes",
@@ -92,6 +95,8 @@ ask("Do you want any?", "p", "r", "n", false,
             addprop("sauce")
             say("hahahahaha", "p", "r", "n", true)
             say("hahahahaha", "j", "l", "n", false)
+            lunaIncrement(5)
+            littleGuyIncrement(10)
             say("I don't know what I was expecting.", "p", "r", "n", false)
         end,
         function ()

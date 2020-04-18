@@ -67,6 +67,11 @@ function LittleGuy:update(dt)
     if self.content > 99 then self.content = 100 end
     if self.energy > 99 then self.energy = 100 end
     if self.happiness > 99 then self.happiness = 100 end
+
+    if littleguy_increment ~= 0 then 
+        self.happiness = self.happiness + littleguy_increment 
+        littleguy_increment = 0
+    end
 end
 
 function LittleGuy:draw()
@@ -94,7 +99,10 @@ function LittleGuy:tunes()
         self.hunger = self.hunger - 5
         self.energy = self.energy - 10
         self.animations:switch('dance')
-        timer:after(2, function () self.action = false end)
+        timer:after(2, function () 
+            self.action = false 
+            run("scripts/music1.lua")
+        end)
     end
 end
 
@@ -132,4 +140,11 @@ end
 
 function LittleGuy:lightswitch()
     self.lights = not self.lights
+end
+
+function LittleGuy:increaseValues(vals)
+    self.hunger = self.hunger + (vals.hunger or 0)
+    self.energy = self.energy + (vals.energy or 0)
+    self.content = self.content + (vals.content or 0)
+    self.happiness = self.happiness + (vals.happiness or 0)
 end
