@@ -18,6 +18,7 @@ emotion = nil
 string_ptr = 2
 opt_flag = false
 answer = nil
+screen_props = {}
 
 sprites = {}
 
@@ -36,6 +37,7 @@ function love.load()
 	input:bind('f1', print_garbage_info)
     input:bind('f2', function() goToRoom('Game') end)
 	input:bind('f3', 'delete')
+
 	
 	input:bind('mouse1', 'click')
 	
@@ -74,6 +76,10 @@ function love.keypressed(key, isRepeat)
 	end
 end
 
+function addprop(str)
+	screen_props[str] = true
+end
+
 function ask(str, c, o, e, s, opts, convo_options)
 	say(str, c, o, e, s)
 	_G.character = c
@@ -98,8 +104,24 @@ function say(str, c, o, e, s)
 	if length > 64 then
 		_G.text = ""
 		lines = math.ceil(length / 64)
+		current_index = 0
 		for i = 1, lines do
-			_G.text = _G.text..str:sub((i - 1) * 64 + 1, i * 64 + 1).."\n"
+			breakchar = current_index + 64
+			print(str:sub(breakchar, breakchar))
+			if breakchar >= length then
+				breakchar = length
+			elseif str:sub(breakchar, breakchar) ~= " " then
+				for j = 1, 64 do
+					if str:sub(breakchar - j, breakchar - j) == " " then
+						breakchar = breakchar - j
+						break
+					end
+				end
+			end
+			print(current_index)
+			print(breakchar)
+			_G.text = _G.text..str:sub(current_index, breakchar).."\n"
+			current_index = breakchar + 1
 		end
 	else
 		_G.text = str

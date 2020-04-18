@@ -4,11 +4,21 @@ function Game:new(state)
 	self.area = Area(self)
 	self.area:addPhysicsWorld()
     self.main_canvas = love.graphics.newCanvas(gx, gy)
-    input:bind("space", "talk")
-    input:bind("z", "talk")
+    input:bind("q", "talk")
+    --input:bind("z", "talk")
     input:bind("up", "choose-up")
     input:bind("down", "choose-down")
 
+    self.lights = true
+
+    self.area:addGameObject("Cursor", 0, 0, {})
+    self.littleguy = self.area:addGameObject('LittleGuy', gw/2, gh/2, {})
+
+    self.area:addGameObject("MenuItem", 400 , 600, {r=60, func= function () self.littleguy:eat() end})
+    self.area:addGameObject("MenuItem", 400 + 120, 600, {r=60, func= function () self.littleguy:tunes() end})
+    self.area:addGameObject("MenuItem", 400 + 240, 600, {r=60, func= function () self.littleguy:play() end})
+    self.area:addGameObject("MenuItem", 400 + 360, 600, {r=60, func= function () self:lightswitch() self.littleguy:lightswitch() end})
+    self.area:addGameObject("MenuItem", 400 + 480, 600, {r=60, func= function () self.littleguy:talk() end})
 
     sprites["n"] = {}
     sprites["n"]["n"] = love.graphics.newImage("img/ness.png")
@@ -18,8 +28,8 @@ function Game:new(state)
     sprites["j"]["n"] = love.graphics.newImage("img/jeff.png")
 
     self.background = love.graphics.newImage("img/background.png")
-
-    self.area:addGameObject('LittleGuy', gw/2, gh/2, {})
+    self.burned_background = love.graphics.newImage("img/burned_background.png")
+    self.sauce = love.graphics.newImage("img/sauce.png")
 
 
 end
@@ -29,13 +39,13 @@ function Game:update(dt)
     camera:lockPosition(dt, gw/2, gh/2)
 
     if input:pressed("talk") and not text then
-        run("scripts/TestScript.lua")
+        run("scripts/FoodScript.lua")
     end
 
     updateText(dt)
 
     animx.update(dt)
-
+    self.area:update(dt)
     timer:update(dt)
 
 end
@@ -44,8 +54,18 @@ function Game:draw()
     love.graphics.setCanvas(self.main_canvas)
     love.graphics.clear()
         camera:attach(0, 0, gw, gh)
-        love.graphics.ellipse('fill', gw/2, gh/2, 600, 800)
-        love.graphics.draw(self.background, 340, 60)
+        --love.graphics.ellipse('fill', gw/2, gh/2, 600, 800)
+        if not self.lights then love.graphics.setColor(.2, .2, .2) end
+        if screen_props["burned"] then
+            love.graphics.draw(self.burned_background, 340, 60)
+        else
+            love.graphics.draw(self.background, 340, 60)
+        end
+        if screen_props["sauce"] then
+            love.graphics.draw(self.sauce, 340, 60)
+        end
+        love.graphics.setColor(0, 0, 0)
+        love.graphics.setColor(1, 1, 1)
         self.area:draw()
         drawText()
         camera:detach()
@@ -61,6 +81,11 @@ function Game:destroy()
 	self.area:destroy()
 	self.area = nil
 end
+
+function Game:lightswitch()
+    self.lights = not self.lights
+end
+
 
 function drawText()
     if text then 

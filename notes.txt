@@ -13,3 +13,8 @@ GAME
 "hey it's not so bad! i was stuck in that closet for years"
 "welcome to the club, guy"
 
+play
+FEED
+sleep
+music
+talk
